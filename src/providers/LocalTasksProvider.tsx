@@ -35,6 +35,7 @@ type LocalTasksContextType = {
   startTask: (taskId: string) => void;
   stopTask: () => void;
   deleteTask: (taskId: string) => void;
+  updateTask: (task: { id: string; name: string }) => void;
 };
 
 const LocalTasksContext = createContext({} as LocalTasksContextType);
@@ -184,6 +185,21 @@ export function LocalTasksProvider({ children }: PropsWithChildren) {
     });
   }
 
+  function updateTask(task: { id: string; name: string }) {
+    const newTasks = tasks.map((t) => {
+      if (t.id === task.id) {
+        t.name = task.name;
+      }
+
+      return t;
+    });
+
+    setTasks(newTasks);
+    syncPush({
+      tasks: newTasks,
+    });
+  }
+
   useEffect(() => {
     syncPull();
   }, [syncPull]);
@@ -198,6 +214,7 @@ export function LocalTasksProvider({ children }: PropsWithChildren) {
         startTask,
         stopTask,
         deleteTask,
+        updateTask,
       }}
     >
       {children}

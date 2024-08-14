@@ -38,6 +38,7 @@ export default function Home() {
     stopTask,
     deleteTask,
     taskHistory,
+    updateTask,
   } = useLocalTasks();
   const activeTaskWithData = tasks.find(
     (task) => task.id === activeTask?.taskId
@@ -202,6 +203,9 @@ export default function Home() {
                               onStartTracking={startTask}
                               onStopTracking={stopTask}
                               onDeleteTask={deleteTask}
+                              onUpdateTask={(task) => {
+                                updateTask(task);
+                              }}
                             />
                           );
                         })}
